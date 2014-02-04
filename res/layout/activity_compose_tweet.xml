@@ -1,0 +1,70 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".ComposeTweetActivity" >
+
+    <LinearLayout
+        android:id="@+id/ll_User"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:orientation="horizontal" >
+
+        <ImageView
+            android:id="@+id/ivUserPic"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_launcher" />
+
+        <TextView
+            android:id="@+id/tv_twitterName"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:paddingLeft="10dp"
+            android:textSize="20sp"
+             />
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/et_tweet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ll_User"
+        android:layout_below="@+id/ll_User"
+        android:ems="10"
+        android:hint="@string/enterTweet"
+        android:maxLength="140" >
+
+        <requestFocus />
+    </EditText>
+
+    <Button
+        android:id="@+id/btn_tweet"
+        style="android:buttonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/et_tweet"
+        android:layout_below="@+id/et_tweet"
+        android:layout_marginLeft="45dp"
+        android:layout_marginTop="18dp"
+        android:onClick="onPostTweet"
+        android:text="@string/tweet" />
+
+    <Button
+        android:id="@+id/btn_cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/btn_tweet"
+        android:layout_alignBottom="@+id/btn_tweet"
+        android:layout_marginLeft="28dp"
+        android:layout_toRightOf="@+id/btn_tweet"
+        android:onClick="onCancelTweet"
+        android:text="@string/cancel" />
+
+</RelativeLayout>
