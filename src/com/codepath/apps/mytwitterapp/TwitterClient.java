@@ -1,11 +1,12 @@
 package com.codepath.apps.mytwitterapp;
 
 import org.scribe.builder.api.Api;
-import org.scribe.builder.api.FlickrApi;
 import org.scribe.builder.api.TwitterApi;
 
 import android.content.Context;
 
+import com.codepath.apps.mytwitterapp.models.Tweet;
+import com.codepath.apps.mytwitterapp.models.User;
 import com.codepath.oauth.OAuthBaseClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -34,11 +35,20 @@ public class TwitterClient extends OAuthBaseClient {
 				REST_CONSUMER_SECRET, REST_CALLBACK_URL);
 	}
 	
-	public void getHomeTimeline(AsyncHttpResponseHandler handler) {
+	public void getHomeTimeline(AsyncHttpResponseHandler handler, Tweet lastTweet) {
 		String url = getApiUrl("statuses/home_timeline.json");
-		if (TimelineActivity.tweetIndex != 0){
-			long max_id = TimelineActivity.lastTweet.getId() - 1;
+		if (lastTweet != null){
+			long max_id = lastTweet.getId() - 1;
 			url = getApiUrl("statuses/home_timeline.json?max_id="+max_id);
+		}
+		client.get(url, null, handler);
+	}
+	
+	public void getMentions (AsyncHttpResponseHandler handler, Tweet lastTweet) {
+		String url = getApiUrl("statuses/mentions_timeline.json");
+		if (lastTweet != null){
+			long max_id = lastTweet.getId() - 1;
+			url = getApiUrl("statuses/mentions_timeline.json?max_id="+max_id);
 		}
 		client.get(url, null, handler);
 	}
@@ -46,6 +56,24 @@ public class TwitterClient extends OAuthBaseClient {
 	public void getUserData(AsyncHttpResponseHandler handler) {
 		String url = getApiUrl("account/verify_credentials.json");
 		client.get(url, null, handler);
+	}
+	
+	public void getUserTimeline(AsyncHttpResponseHandler handler, User u, Tweet lastTweet) {
+		String url = getApiUrl("statuses/user_timeline.json");
+		RequestParams params = null;
+		if (lastTweet != null){
+			params = new RequestParams();
+			String max_id = String.valueOf(lastTweet.getId() - 1);
+			params.put("max_id", max_id);
+			if (u != null){
+				params.put("screen_name", u.getScreenName());
+			}
+		}
+		else if (u != null){
+			params = new RequestParams();
+			params.put("screen_name", u.getScreenName());
+		}
+		client.get(url, params, handler);
 	}
 	
 	public void postUserTweet(AsyncHttpResponseHandler handler, String status) {

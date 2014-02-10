@@ -9,6 +9,12 @@
 	    android:id="@+id/menu_compose"
 	    android:icon="@drawable/ic_compose"
 	    android:showAsAction="ifRoom"
+	    android:onClick="openCompose"
 	    android:title="" />
-
+    <item 
+        android:id="@+id/menu_profile"
+        android:icon="@drawable/ic_profile"
+        android:showAsAction="ifRoom"
+        android:onClick="onProfileView"
+		android:title="Profile" />
 </menu>

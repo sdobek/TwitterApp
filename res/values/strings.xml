@@ -11,5 +11,6 @@
     <string name="tweet">Tweet</string>
     <string name="cancel">Cancel</string>
     <string name="enterTweet">Enter Tweet</string>
+    <string name="title_activity_profile">ProfileActivity</string>
 
 </resources>

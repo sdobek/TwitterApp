@@ -49,6 +49,7 @@ public class ComposeTweetActivity extends Activity {
 					Intent i = new Intent();
 					i.putExtra("tweet", postedTweet);
 					setResult(RESULT_OK, i);
+//					setResult(RESULT_OK);
 					finish();
 				}
 			}, 

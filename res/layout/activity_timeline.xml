@@ -3,13 +3,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".TimelineActivity" >
-
-    <ListView
-        android:id="@+id/lvTweets"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    
+    
+    
+    <!-- <fragment
+        android:id="@+id/fragmentTweets"
+        android:name="com.codepath.apps.mytwitterapp.fragments.MentionsFragment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        tools:layout="@layout/fragment_tweets_list" /> -->
+
+    <FrameLayout
+        android:id="@+id/fragmentTweets"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true" >
-    </ListView>
+
+    </FrameLayout>
 
 </RelativeLayout>
