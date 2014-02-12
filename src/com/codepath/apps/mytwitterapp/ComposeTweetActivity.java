@@ -36,6 +36,11 @@ public class ComposeTweetActivity extends Activity {
 		nameView.setText(Html.fromHtml(formattedName));
 		
 		bodyView = (EditText) findViewById(R.id.et_tweet);
+		//Reply tweet
+		String username = getIntent().getStringExtra("username");
+		if (username != null){
+			bodyView.setText("@"+username);
+		}
 	}
 	
 	public void onPostTweet(View v){
@@ -49,7 +54,6 @@ public class ComposeTweetActivity extends Activity {
 					Intent i = new Intent();
 					i.putExtra("tweet", postedTweet);
 					setResult(RESULT_OK, i);
-//					setResult(RESULT_OK);
 					finish();
 				}
 			}, 

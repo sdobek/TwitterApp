@@ -72,7 +72,7 @@
 
     <fragment
         android:id="@+id/fragmentUserTimeline"
-        android:name="com.codepath.apps.mytwitterapp.fragments.UserTimelineFragment"
+        class="com.codepath.apps.mytwitterapp.fragments.UserTimelineFragment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

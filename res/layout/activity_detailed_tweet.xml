@@ -1,0 +1,55 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".DetailedTweetActivity" >
+
+    <ImageView
+        android:id="@+id/ivReply"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/ic_profile" />
+
+    <TextView
+        android:id="@+id/tvTweetName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/ivReply"
+        android:layout_marginLeft="16dp"
+        android:layout_toRightOf="@+id/ivReply"
+        android:text="@string/name" />
+
+    <TextView
+        android:id="@+id/tvTweetDetailed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/ivReply"
+        android:layout_below="@+id/ivReply"
+        android:layout_marginTop="20dp"
+        android:text="@string/tweet" />
+
+    <TextView
+        android:id="@+id/tvTweetDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/tvTweetDetailed"
+        android:layout_below="@+id/tvTweetDetailed"
+        android:text="@string/date" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/tvTweetDate"
+        android:layout_marginTop="24dp" >
+
+    </LinearLayout>
+
+</RelativeLayout>

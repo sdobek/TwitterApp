@@ -12,11 +12,11 @@ import com.codepath.apps.mytwitterapp.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
 public class MentionsFragment extends TweetsListFragment {
+	
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		
-		MyTwitterApp.getRestClient().getMentions(new JsonHttpResponseHandler()
+	public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        MyTwitterApp.getRestClient().getMentions(new JsonHttpResponseHandler()
 		{
 			@Override
 			public void onSuccess(JSONArray jsonTweets){
@@ -26,19 +26,9 @@ public class MentionsFragment extends TweetsListFragment {
 		}, lastTweet);
 	}
 	
-	public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        lvTweets.setOnScrollListener(new EndlessScrollListener() {
-	        @Override
-	        public void onLoadMore(int page, int totalItemsCount) {
-	        	customLoadMoreDataFromApi(totalItemsCount); 
-	        }
-	    });
-	}
-	
-	private void customLoadMoreDataFromApi(int page) {
+	void customLoadMoreDataFromApi(int totalItemCount) {
 	 	if (tweets != null){
-	 		lastTweet = tweets.get(tweets.size()-1);	
+	 		lastTweet = tweets.get(totalItemCount-1);	
 	 	}
 		MyTwitterApp.getRestClient().getMentions(new JsonHttpResponseHandler()
 		{
@@ -46,14 +36,14 @@ public class MentionsFragment extends TweetsListFragment {
 			public void onSuccess(JSONArray jsonTweets){
 				if (tweets == null){
 					tweets = Tweet.fromJson(jsonTweets);
-					adapter.addAll(tweets);
-					adapter.notifyDataSetChanged();
+					getAdapter().addAll(tweets);
+					getAdapter().notifyDataSetChanged();
 				}
 				else {
 					ArrayList<Tweet> newTweets = Tweet.fromJson(jsonTweets);
 					tweets.addAll(newTweets);
-					adapter.addAll(newTweets);
-					adapter.notifyDataSetChanged();						
+					getAdapter().addAll(newTweets);
+					getAdapter().notifyDataSetChanged();						
 				}				
 			}
 		}, lastTweet);

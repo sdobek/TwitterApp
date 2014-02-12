@@ -14,9 +14,9 @@
     <application
         android:name="com.codepath.apps.mytwitterapp.MyTwitterApp"
         android:allowBackup="true"
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/ic_mytwitter_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/MyTheme" >
         <meta-data
             android:name="AA_DB_NAME"
             android:value="RestClient.db" />
@@ -54,6 +54,10 @@
         <activity
             android:name="com.codepath.apps.mytwitterapp.ProfileActivity"
             android:label="@string/title_activity_profile" >
+        </activity>
+        <activity
+            android:name="com.codepath.apps.mytwitterapp.DetailedTweetActivity"
+            android:label="@string/title_activity_detailed_tweet" >
         </activity>
     </application>
 

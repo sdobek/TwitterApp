@@ -25,17 +25,17 @@ import com.codepath.apps.mytwitterapp.models.Tweet;
 import com.codepath.apps.mytwitterapp.models.User;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
-public class TimelineActivity extends FragmentActivity implements TabListener{
+public class TimelineActivity extends FragmentActivity {
 	
 	private final int REQUEST_CODE = 20;
 	
 	private boolean mReturningWithResult = false;
 	
 	ArrayList<Tweet> tweets;
-	public static int tweetIndex;
-	public static Tweet lastTweet;
+	public int tweetIndex;
+	public Tweet lastTweet;
 	ListView lvTweets;
-	private static JSONObject user_data;
+	public static JSONObject user_data;
 	TweetsAdapter adapter;
 	TweetsListFragment fragmentTweets;
 	ActionBar actionBar;
@@ -51,8 +51,8 @@ public class TimelineActivity extends FragmentActivity implements TabListener{
 		MyTwitterApp.getRestClient().getUserData(new JsonHttpResponseHandler()
 		{
 			@Override
-			public void onSuccess(JSONObject user_data){
-				TimelineActivity.user_data = user_data;
+			public void onSuccess(JSONObject u_data){
+				user_data = u_data;
 			}
 		});
 		
@@ -65,10 +65,12 @@ public class TimelineActivity extends FragmentActivity implements TabListener{
 		actionBar.setDisplayShowTitleEnabled(true);
 		Tab tabHome = actionBar.newTab().setText("Home")
 						.setTag("HomeTimelineFragment").setIcon(R.drawable.ic_home)
-						.setTabListener(this);
+						.setTabListener(new FragmentTabListener<HomeTimelineFragment>(R.id.fragmentTweets, this, "home",
+                                HomeTimelineFragment.class));
 		Tab tabMentions = actionBar.newTab().setText("Mentions")
 						.setTag("MentionsTimelineFragment").setIcon(R.drawable.ic_at)
-						.setTabListener(this);
+						.setTabListener(new FragmentTabListener<MentionsFragment>(R.id.fragmentTweets, this, "mentions",
+                                MentionsFragment.class));
 
 		actionBar.addTab(tabHome);
 		actionBar.addTab(tabMentions);
@@ -84,23 +86,10 @@ public class TimelineActivity extends FragmentActivity implements TabListener{
 	}
 	
 		
-//	@Override
-//	public boolean onOptionsItemSelected(MenuItem item) {
-//	    // Handle presses on the action bar items
-//	    switch (item.getItemId()) {
-//	        case R.id.menu_compose:
-//	            openCompose();
-//	            return true;
-//	        default:
-//	            return super.onOptionsItemSelected(item);
-//	    }
-//	}
-	
 	public void openCompose(MenuItem mi){
 		Intent i = new Intent(TimelineActivity.this, ComposeTweetActivity.class);
 		User currentUser = User.fromJson(user_data);
 		i.putExtra("currentUser", currentUser);
-//		startActivity(i);
 		startActivityForResult(i, REQUEST_CODE);
 	}
 	
@@ -116,65 +105,23 @@ public class TimelineActivity extends FragmentActivity implements TabListener{
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 	  if (resultCode == RESULT_OK && requestCode == REQUEST_CODE) {
-//	     Tweet t = (Tweet) data.getSerializableExtra("tweet");
-//	     tweets.add(0, t);
-//	     adapter = new TweetsAdapter(getBaseContext(), tweets);
-//	     lvTweets.setAdapter(adapter);
-//		 lvTweets.setSelection(0);
-		  
 		  mReturningWithResult = true;
-		 //attempt 1
-		 //actionBar.setSelectedNavigationItem(0);
-		 //attempt 2
-		 //Tab t = actionBar.getTabAt(0);
-		 //onTabSelected(t, null);
-	     
 	  }
 	}
 	
 	protected void onPostResume() {
 	    super.onPostResume();
 	    if (mReturningWithResult) {
-	    	//actionBar.setSelectedNavigationItem(0);
-	    	Tab t = actionBar.getTabAt(0);
-			onTabSelected(t, null);
+	    	//selects HomeTab and restarts home fragment to reflect update
+	    	actionBar.setSelectedNavigationItem(0);
+	    	FragmentManager manager = getSupportFragmentManager();
+	    	android.support.v4.app.FragmentTransaction fts = manager.beginTransaction();
+	    	fts.replace(R.id.fragmentTweets, new HomeTimelineFragment());
+	    	fts.commit();
 	    }
 
 	    // Reset the boolean flag back to false for next time.
 	    mReturningWithResult = false;
-	}
-
-	@Override
-	public void onTabReselected(Tab tab, FragmentTransaction ft) {
-//		FragmentManager manager = getSupportFragmentManager();
-//		android.support.v4.app.FragmentTransaction fts = manager.beginTransaction();
-//		if (tab.getTag() == "HomeTimelineFragment"){
-//			fts.replace(R.id.fragmentTweets, new HomeTimelineFragment());
-//		}
-//		else if (tab.getTag() == "MentionsTimelineFragment"){
-//			fts.replace(R.id.fragmentTweets, new MentionsFragment());
-//		}
-//		fts.commit();
-	}
-
-	@Override
-	public void onTabSelected(Tab tab, FragmentTransaction ft) {
-		FragmentManager manager = getSupportFragmentManager();
-		android.support.v4.app.FragmentTransaction fts = manager.beginTransaction();
-		if (tab.getTag() == "HomeTimelineFragment"){
-			fts.replace(R.id.fragmentTweets, new HomeTimelineFragment());
-		}
-		else if (tab.getTag() == "MentionsTimelineFragment"){
-			fts.replace(R.id.fragmentTweets, new MentionsFragment());
-		}
-		fts.commit();
-		
-	}
-
-	@Override
-	public void onTabUnselected(Tab arg0, FragmentTransaction arg1) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	

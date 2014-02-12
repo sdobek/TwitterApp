@@ -2,16 +2,19 @@ package com.codepath.apps.mytwitterapp;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.codepath.apps.mytwitterapp.fragments.TweetsListFragment;
+import com.codepath.apps.mytwitterapp.fragments.UserTimelineFragment;
 import com.codepath.apps.mytwitterapp.models.User;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
 public class ProfileActivity extends FragmentActivity {
 	
-	public static User currentUser;
+	private User currentUser;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -20,6 +23,10 @@ public class ProfileActivity extends FragmentActivity {
 		
 		currentUser = (User) getIntent().getSerializableExtra("currentUser");
 		loadProfileInfo(currentUser);
+		
+		UserTimelineFragment fragmentUserTimeline = (UserTimelineFragment) 
+		         getSupportFragmentManager().findFragmentById(R.id.fragmentUserTimeline);
+		fragmentUserTimeline.setUser(currentUser);
 	}
 
 	private void loadProfileInfo(User u) {

@@ -6,6 +6,8 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import android.os.Bundle;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -21,18 +23,18 @@ import com.codepath.apps.mytwitterapp.TweetsAdapter;
 import com.codepath.apps.mytwitterapp.models.Tweet;
 import com.loopj.android.http.JsonHttpResponseHandler;
 
-public class TweetsListFragment extends Fragment {
+public abstract class TweetsListFragment extends Fragment {
 	
 	ArrayList<Tweet> tweets;
 	public Tweet lastTweet;
 	ListView lvTweets;
-	TweetsAdapter adapter;
+	private TweetsAdapter adapter;
 	
 	public View onCreateView(LayoutInflater inf, ViewGroup parent, Bundle savedInstanceState) {
       return inf.inflate(R.layout.fragment_tweets_list, parent, false);
     }
 	
-	 @Override //Can be deleted
+	 @Override 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         //getActivity to access methods in the linked activity
@@ -41,12 +43,22 @@ public class TweetsListFragment extends Fragment {
         lvTweets = (ListView) getActivity().findViewById(R.id.lvTweets);
         lvTweets.setAdapter(adapter);
         lastTweet = null;
-		
+        
+        lvTweets.setOnScrollListener(new EndlessScrollListener() {
+	        @Override
+	        public void onLoadMore(int page, int totalItemsCount) {
+	        	customLoadMoreDataFromApi(totalItemsCount); 
+	        }
+	    });
+        		
 	 }	
 	 
-	 public TweetsAdapter getAdapter(){
+	abstract void customLoadMoreDataFromApi(int totalItemsCount);
+	 
+
+	public TweetsAdapter getAdapter(){
 		 return adapter;
-	 }
+	}
 	 
 
 }

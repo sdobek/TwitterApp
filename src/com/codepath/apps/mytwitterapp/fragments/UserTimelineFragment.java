@@ -15,37 +15,24 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 
 
 public class UserTimelineFragment extends TweetsListFragment {
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	private User current;
 		
-	}
-	
+	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (tweets != null){
-	 		lastTweet = tweets.get(tweets.size()-1);	
-	 	}
-		MyTwitterApp.getRestClient().getUserTimeline(new JsonHttpResponseHandler()
+        MyTwitterApp.getRestClient().getUserTimeline(new JsonHttpResponseHandler()
 		{
 			@Override
 			public void onSuccess(JSONArray jsonTweets){
 				tweets = Tweet.fromJson(jsonTweets);
 				getAdapter().addAll(tweets);
 			}
-		}, ProfileActivity.currentUser, lastTweet);
-		
-        lvTweets.setOnScrollListener(new EndlessScrollListener() {
-	        @Override
-	        public void onLoadMore(int page, int totalItemsCount) {
-	        	customLoadMoreDataFromApi(totalItemsCount); 
-	        }
-	    });
+		}, current, lastTweet);
 	}
 	
-	private void customLoadMoreDataFromApi(int page) {
+	void customLoadMoreDataFromApi(int totalItemCount) {
 		if (tweets != null){
-	 		lastTweet = tweets.get(tweets.size()-1);	
+	 		lastTweet = tweets.get(totalItemCount-1);	
 	 	}
 		MyTwitterApp.getRestClient().getUserTimeline(new JsonHttpResponseHandler()
 		{
@@ -53,17 +40,20 @@ public class UserTimelineFragment extends TweetsListFragment {
 			public void onSuccess(JSONArray jsonTweets){
 				if (tweets == null){
 					tweets = Tweet.fromJson(jsonTweets);
-					adapter.addAll(tweets);
-					adapter.notifyDataSetChanged();
+					getAdapter().addAll(tweets);
+					getAdapter().notifyDataSetChanged();
 				}
 				else {
 					ArrayList<Tweet> newTweets = Tweet.fromJson(jsonTweets);
 					tweets.addAll(newTweets);
-					adapter.addAll(newTweets);
-					adapter.notifyDataSetChanged();						
+					getAdapter().addAll(newTweets);
+					getAdapter().notifyDataSetChanged();						
 				}				
 			}
-		}, ProfileActivity.currentUser, lastTweet);
-		
+		}, current, lastTweet);
+	}
+	
+	public void setUser(User u){
+		current = u;
 	}
 }

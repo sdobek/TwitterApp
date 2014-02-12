@@ -12,5 +12,9 @@
     <string name="cancel">Cancel</string>
     <string name="enterTweet">Enter Tweet</string>
     <string name="title_activity_profile">ProfileActivity</string>
+    <string name="title_activity_detailed_tweet">DetailedTweetActivity</string>
+    <string name="name">Name</string>
+    <string name="username">\@user</string>
+    <string name="date">mm/dd/yy</string>
 
 </resources>
